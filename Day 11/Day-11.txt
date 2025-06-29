@@ -1,0 +1,156 @@
+mysql> use FSD_Tasks;
+Database changed
+mysql> select database();
++------------+
+| database() |
++------------+
+| fsd_tasks  |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select * from Courses;
++------+--------------------+------+----------+------+
+| c_id | cname              | s_id | sname    | cfee |
++------+--------------------+------+----------+------+
+|  221 | Java Programming   |  101 | Amir     | 2300 |
+|  331 | Python Programming |  121 |  Dolly   | 1380 |
+|  441 | Full-Stack         |  128 |  Sanofer | 2645 |
+|  551 | Java with DSA      |  178 |  Niki    | 1553 |
+|  661 | SQL                |  181 |  Sammy   | 2703 |
++------+--------------------+------+----------+------+
+5 rows in set (0.00 sec)
+
+mysql> select cname ,count(sname) as std_Count from Courses group by cname;
++--------------------+-----------+
+| cname              | std_Count |
++--------------------+-----------+
+| Java Programming   |         1 |
+| Python Programming |         1 |
+| Full-Stack         |         1 |
+| Java with DSA      |         1 |
+| SQL                |         1 |
++--------------------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> alter table empl add column sal int;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from empl;
++--------+----------+------------+---------+-----------+-------+
+| emp_id | emp_name | emp_dpt    | emp_dno | emp_desg  | sal   |
++--------+----------+------------+---------+-----------+-------+
+|   1010 | Amaya    | Sales      |      10 | Manager   | 30000 |
+|   1020 | Ruke     | Sales      |      10 | Salesman  | 35000 |
+|   1030 | Zayn     | Accounting |      20 | Hr        | 40000 |
+|   1040 | Javin    | Operations |      30 | Developer | 39000 |
+|   1050 | Mevin    | Operations |      30 | Manager   | 45000 |
++--------+----------+------------+---------+-----------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select emp_dpt ,avg(sal) from empl group by emp_dpt;
++------------+------------+
+| emp_dpt    | avg(sal)   |
++------------+------------+
+| Sales      | 32500.0000 |
+| Accounting | 40000.0000 |
+| Operations | 42000.0000 |
++------------+------------+
+3 rows in set (0.01 sec)
+
+mysql> select * from books;
++------+------------------+-----------------+-------+
+| bid  | bname            | author          | price |
++------+------------------+-----------------+-------+
+| 9001 | The Blue Bouquer | Octavio Paz     |   300 |
+| 9201 | The Happy Prince | Oscar Wilde     |   460 |
+| 9701 | The Sea          | Robert Lynd     |   890 |
+| 9741 | Meeting at Night | Robert Browning |   190 |
+| 9901 | Mockingbird      | Harper Lee      |   600 |
++------+------------------+-----------------+-------+
+5 rows in set (0.02 sec)
+
+mysql> select max(price),min(price) from books;
++------------+------------+
+| max(price) | min(price) |
++------------+------------+
+|        890 |        190 |
++------------+------------+
+1 row in set (0.01 sec)
+
+mysql> create table sales (
+    ->   sid int primary key,
+    ->   pname varchar(50),
+    ->   quantity int,
+    ->   tot_amount int,
+    ->   dept varchar(30)
+    -> );
+Query OK, 0 rows affected (0.23 sec)
+
+mysql> desc sales;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| sid        | int         | NO   | PRI | NULL    |       |
+| pname      | varchar(50) | YES  |     | NULL    |       |
+| quantity   | int         | YES  |     | NULL    |       |
+| tot_amount | int         | YES  |     | NULL    |       |
+| dept       | varchar(30) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.07 sec)
+
+mysql> insert into sales values (1, 'laptop', 5, 250000, 'electronics');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into sales values (2, 'mouse', 10, 15000, 'electronics');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into sales values (3, 'chair', 7, 21000, 'furniture');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from sales
+    -> ;
++-----+--------+----------+------------+-------------+
+| sid | pname  | quantity | tot_amount | dept        |
++-----+--------+----------+------------+-------------+
+|   1 | laptop |        5 |     250000 | electronics |
+|   2 | mouse  |       10 |      15000 | electronics |
+|   3 | chair  |        7 |      21000 | furniture   |
++-----+--------+----------+------------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> select pname, sum(quantity) as tot_qty, sum(tot_amount) as total_sales
+    -> from sales
+    -> group by pname;
++--------+---------+-------------+
+| pname  | tot_qty | total_sales |
++--------+---------+-------------+
+| laptop |       5 |      250000 |
+| mouse  |      10 |       15000 |
+| chair  |       7 |       21000 |
++--------+---------+-------------+
+3 rows in set (0.01 sec)
+
+mysql> select * from emp;
++------+--------+------------+--------------+-------+-------------+---------+
+| eno  | ename  | hire_date  | designation  | sal   | dept        | dept_no |
++------+--------+------------+--------------+-------+-------------+---------+
+| 1101 | Arun   | 1980-12-17 | MANAGER      | 40000 |  AUDIT      |      40 |
+| 1122 | Buvana | 1981-06-09 |  ANALYST     | 35000 |  ACCOUNTING |      10 |
+| 1134 | MANI   | 1982-01-23 |  CLERK       | 20000 |  SALES      |      30 |
+| 1199 | JEROM  | 1982-10-20 |   SALESMAN   | 37000 |  SALES      |      30 |
+| 1145 | ISSAC  | 1982-11-02 |    PRESIDENT | 50000 |  AUDIT      |      40 |
++------+--------+------------+--------------+-------+-------------+---------+
+5 rows in set (0.01 sec)
+
+mysql>  select dept, count(*) as total_emp, avg(sal) as avg_sal from emp group by dept;
++-------------+-----------+------------+
+| dept        | total_emp | avg_sal    |
++-------------+-----------+------------+
+|  AUDIT      |         2 | 45000.0000 |
+|  ACCOUNTING |         1 | 35000.0000 |
+|  SALES      |         2 | 28500.0000 |
++-------------+-----------+------------+
+3 rows in set (0.01 sec)
+
+mysql> notee

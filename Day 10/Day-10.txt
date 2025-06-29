@@ -1,0 +1,117 @@
+mysql> select rno,sname,marks from stud where marks>80;
++-----+---------+-------+
+| rno | sname   | marks |
++-----+---------+-------+
+| 128 | Sanofer |    81 |
+| 181 | Sammy   |    99 |
++-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql> select c_id,cname,cfee from Courses order by cfee desc;
++------+--------------------+------+
+| c_id | cname              | cfee |
++------+--------------------+------+
+|  661 | SQL                | 2703 |
+|  441 | Full-Stack         | 2645 |
+|  221 | Java Programming   | 2300 |
+|  551 | Java with DSA      | 1553 |
+|  331 | Python Programming | 1380 |
++------+--------------------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from booklib;
++---------+----------------------+------------------+
+| book_id | book_name            | author           |
++---------+----------------------+------------------+
+|    9901 | Programming Java     | Kathy Sierra     |
+|    9902 | Python Crash Course  | Eric Matthes     |
+|    9903 | C Programming        | Dennis Ritchie   |
+|    9904 | Eloquent JavaScript  | Marijn Haverbeke |
+|    9905 | Programming in Scala | Martin Odersky   |
++---------+----------------------+------------------+
+5 rows in set (0.02 sec)
+
+mysql> select book_name from booklib where book_name like 'p%';
++----------------------+
+| book_name            |
++----------------------+
+| Programming Java     |
+| Python Crash Course  |
+| Programming in Scala |
++----------------------+
+3 rows in set (0.00 sec)
+//////////////////////////////////////////////////////////////////////
+mysql> select * from libmemb ;
++--------+-------+-----------+
+| mem_id | mname | mem_desig |
++--------+-------+-----------+
+|   2308 | Allie | Student   |
+|   2311 | Emy   | Staff     |
+|   2350 | Ruby  | Staff     |
+|   2359 | Blake | Staff     |
+|   2390 | Kathy | Student   |
++--------+-------+-----------+
+5 rows in set (0.03 sec)
+
+mysql> select * from libmemb where mem_desig='Staff';
++--------+-------+-----------+
+| mem_id | mname | mem_desig |
++--------+-------+-----------+
+|   2311 | Emy   | Staff     |
+|   2350 | Ruby  | Staff     |
+|   2359 | Blake | Staff     |
++--------+-------+-----------+
+3 rows in set (0.01 sec)
+//////////////////////////////////////////////////////////////////
+mysql> select * from empl;
++--------+----------+------------+---------+-----------+
+| emp_id | emp_name | emp_dpt    | emp_dno | emp_desg  |
++--------+----------+------------+---------+-----------+
+|   1010 | Amaya    | Sales      |      10 | Manager   |
+|   1020 | Ruke     | Sales      |      10 | Salesman  |
+|   1030 | Zayn     | Accounting |      20 | Hr        |
+|   1040 | Javin    | Operations |      30 | Developer |
+|   1050 | Mevin    | Operations |      30 | Manager   |
++--------+----------+------------+---------+-----------+
+5 rows in set (0.02 sec)
+
+mysql> select * from empl where emp_dno=30 order by emp_name;
++--------+----------+------------+---------+-----------+
+| emp_id | emp_name | emp_dpt    | emp_dno | emp_desg  |
++--------+----------+------------+---------+-----------+
+|   1040 | Javin    | Operations |      30 | Developer |
+|   1050 | Mevin    | Operations |      30 | Manager   |
++--------+----------+------------+---------+-----------+
+2 rows in set (0.01 sec)
+
+mysql> select * from empl order by emp_name ;
++--------+----------+------------+---------+-----------+
+| emp_id | emp_name | emp_dpt    | emp_dno | emp_desg  |
++--------+----------+------------+---------+-----------+
+|   1010 | Amaya    | Sales      |      10 | Manager   |
+|   1040 | Javin    | Operations |      30 | Developer |
+|   1050 | Mevin    | Operations |      30 | Manager   |
+|   1020 | Ruke     | Sales      |      10 | Salesman  |
+|   1030 | Zayn     | Accounting |      20 | Hr        |
++--------+----------+------------+---------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from empl where emp_name like '%n' ;
++--------+----------+------------+---------+-----------+
+| emp_id | emp_name | emp_dpt    | emp_dno | emp_desg  |
++--------+----------+------------+---------+-----------+
+|   1030 | Zayn     | Accounting |      20 | Hr        |
+|   1040 | Javin    | Operations |      30 | Developer |
+|   1050 | Mevin    | Operations |      30 | Manager   |
++--------+----------+------------+---------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> select emp_name from empl where emp_desg='Hr';
++----------+
+| emp_name |
++----------+
+| Zayn     |
++----------+
+1 row in set (0.00 sec)
+
+mysql> notee

@@ -1,0 +1,366 @@
+mysql> use FSD_Tasks;
+Database changed
+mysql> select database();
++------------+
+| database() |
++------------+
+| fsd_tasks  |
++------------+
+1 row in set (0.00 sec)
+
+mysql> create table stud(
+    -> rno int primary key,
+    -> sname varchar(20) not null,
+    -> age int,
+    -> dob date,
+    -> marks int);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc stud;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| rno   | int         | NO   | PRI | NULL    |       |
+| sname | varchar(20) | NO   |     | NULL    |       |
+| age   | int         | YES  |     | NULL    |       |
+| dob   | date        | YES  |     | NULL    |       |
+| marks | int         | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> insert into stud values(101,'Amir',20,'2005-09-09',80);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into stud values(121,'Dolly',19,'2005-11-25',70);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into stud values(128,'Sanofer',19,'2005-06-30',81);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into stud values(178,'Niki',19,'2005-07-10',79);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into stud values(181,'Sammy',19,'2006-05-22',99);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from stud;
++-----+---------+------+------------+-------+
+| rno | sname   | age  | dob        | marks |
++-----+---------+------+------------+-------+
+| 101 | Amir    |   20 | 2005-09-09 |    80 |
+| 121 | Dolly   |   19 | 2005-11-25 |    70 |
+| 128 | Sanofer |   19 | 2005-06-30 |    81 |
+| 178 | Niki    |   19 | 2005-07-10 |    79 |
+| 181 | Sammy   |   19 | 2006-05-22 |    99 |
++-----+---------+------+------------+-------+
+5 rows in set (0.01 sec)
+
+mysql> create table Courses(
+    -> c_id int primary key,
+    -> cname varchar(20) not null,
+    -> s_id int,
+    -> sname varchar(20),
+    -> cfee int,
+    -> foreign key(s_id) references stud(rno));
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> desc Courses;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| c_id  | int         | NO   | PRI | NULL    |       |
+| cname | varchar(20) | NO   |     | NULL    |       |
+| s_id  | int         | YES  | MUL | NULL    |       |
+| sname | varchar(20) | YES  |     | NULL    |       |
+| cfee  | int         | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> insert into Courses values(221,'Java Programming',101,'Amir',2000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Courses values(331,'Python Programming',121,' Dolly',1200);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Courses values(441,'Full-Stack',128,' Sanofer',2300);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Courses values(551,'Java with DSA',178,' Niki',1350);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Courses values(661,'SQL',181,' Sammy',2350);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from Courses;
++------+--------------------+------+----------+------+
+| c_id | cname              | s_id | sname    | cfee |
++------+--------------------+------+----------+------+
+|  221 | Java Programming   |  101 | Amir     | 2000 |
+|  331 | Python Programming |  121 |  Dolly   | 1200 |
+|  441 | Full-Stack         |  128 |  Sanofer | 2300 |
+|  551 | Java with DSA      |  178 |  Niki    | 1350 |
+|  661 | SQL                |  181 |  Sammy   | 2350 |
++------+--------------------+------+----------+------+
+5 rows in set (0.00 sec)
+
+mysql> update Courses set cfee=cfee*1.15;
+Query OK, 5 rows affected (0.02 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> select * from Courses;
++------+--------------------+------+----------+------+
+| c_id | cname              | s_id | sname    | cfee |
++------+--------------------+------+----------+------+
+|  221 | Java Programming   |  101 | Amir     | 2300 |
+|  331 | Python Programming |  121 |  Dolly   | 1380 |
+|  441 | Full-Stack         |  128 |  Sanofer | 2645 |
+|  551 | Java with DSA      |  178 |  Niki    | 1553 |
+|  661 | SQL                |  181 |  Sammy   | 2703 |
++------+--------------------+------+----------+------+
+5 rows in set (0.00 sec)
+
+mysql> create database lib;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> create table booklib(
+    -> book_id int primary key,
+    -> book_name varchar(20) not null,
+    -> author varchar(20) not null);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc booklib;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| book_id   | int         | NO   | PRI | NULL    |       |
+| book_name | varchar(20) | NO   |     | NULL    |       |
+| author    | varchar(20) | NO   |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> insert into booklib values(9901,'Programming Java','Kathy Sierra');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into booklib values(9902,'Python Crash Course','Eric Matthes');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into booklib values(9903,'C Programming','Dennis Ritchie');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into booklib values(9904,'Eloquent JavaScript','Marijn Haverbeke');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into booklib values(9905,'Programming in Scala','Martin Odersky');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from booklib;
++---------+----------------------+------------------+
+| book_id | book_name            | author           |
++---------+----------------------+------------------+
+|    9901 | Programming Java     | Kathy Sierra     |
+|    9902 | Python Crash Course  | Eric Matthes     |
+|    9903 | C Programming        | Dennis Ritchie   |
+|    9904 | Eloquent JavaScript  | Marijn Haverbeke |
+|    9905 | Programming in Scala | Martin Odersky   |
++---------+----------------------+------------------+
+5 rows in set (0.00 sec)
+
+mysql> create table libmemb(
+    -> mem_id int primary key,
+    -> mname varchar(20) not null,
+    -> mem_desig varchar(20));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc libmemb;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| mem_id    | int         | NO   | PRI | NULL    |       |
+| mname     | varchar(20) | NO   |     | NULL    |       |
+| mem_desig | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> insert into libmemb values(2311,'Emy','Staff');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into libmemb values(2308,'Allie','Student');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into libmemb values(2390,'Kathy','Student');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into libmemb values(2350,'Ruby','Staff');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into libmemb values(2359,'Blake','Staff');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from libmemb;
++--------+-------+-----------+
+| mem_id | mname | mem_desig |
++--------+-------+-----------+
+|   2308 | Allie | Student   |
+|   2311 | Emy   | Staff     |
+|   2350 | Ruby  | Staff     |
+|   2359 | Blake | Staff     |
+|   2390 | Kathy | Student   |
++--------+-------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> create table book_entry(
+    -> book_id int,
+    -> book_name varchar(20),
+    -> mem_id int,
+    -> mname varchar(20),
+    -> mem_desig varchar(20),
+    -> foreign key(book_id) references booklib(book_id),
+    -> foreign key(mem_id) references libmemb(mem_id));
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> desc book_entry;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| book_id   | int         | YES  | MUL | NULL    |       |
+| book_name | varchar(20) | YES  |     | NULL    |       |
+| mem_id    | int         | YES  | MUL | NULL    |       |
+| mname     | varchar(20) | YES  |     | NULL    |       |
+| mem_desig | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> insert into book_entry values(9901,'Programming Java',2350,'Ruby','Staff');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into book_entry values(9904,'Python Crash Course',2359,'Blake','Staff');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into book_entry values(9905,'Programming in Scala',2311,'Emy','Staff');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> drop table book_entry;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> create table book_entry(
+    -> book_id int,
+    -> book_name varchar(20),
+    -> mem_id int,
+    -> mname varchar(20),
+    -> mem_desig varchar(20),
+    -> iss_date date,
+    -> ret_date date,
+    -> foreign key(book_id) references booklib(book_id),
+    -> foreign key(mem_id) references libmemb(mem_id));
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> insert into book_entry values(9901,'Programming Java',2350,'Ruby','Staff','2025-03-20','2025-05-29');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into book_entry values(9901,'Programming Java',2350,'Ruby','Staff','2025-04-12','2025-06-20');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into book_entry values(9904,'Python Crash Course',2359,'Blake','Staff','2025-01-20','2025-03-21');
+Query OK, 1 row affected (0.01 sec)
+
+mysql>  insert into book_entry values(9905,'Programming in Scala',2311,'Emy','Staff','2025-06-25','2025-07-30');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from book_entry;
++---------+----------------------+--------+-------+-----------+------------+------------+
+| book_id | book_name            | mem_id | mname | mem_desig | iss_date   | ret_date   |
++---------+----------------------+--------+-------+-----------+------------+------------+
+|    9901 | Programming Java     |   2350 | Ruby  | Staff     | 2025-03-20 | 2025-05-29 |
+|    9901 | Programming Java     |   2350 | Ruby  | Staff     | 2025-04-12 | 2025-06-20 |
+|    9904 | Python Crash Course  |   2359 | Blake | Staff     | 2025-01-20 | 2025-03-21 |
+|    9905 | Programming in Scala |   2311 | Emy   | Staff     | 2025-06-25 | 2025-07-30 |
++---------+----------------------+--------+-------+-----------+------------+------------+
+4 rows in set (0.00 sec)
+
+mysql> create table empl(
+    -> emp_id int primary key,
+    -> emp_name varchar(20) not null,
+    -> emp_dpt varchar(20),
+    -> emp_dno int,
+    -> emp_desg varchar(20));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc empl;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| emp_id   | int         | NO   | PRI | NULL    |       |
+| emp_name | varchar(20) | NO   |     | NULL    |       |
+| emp_dpt  | varchar(20) | YES  |     | NULL    |       |
+| emp_dno  | int         | YES  |     | NULL    |       |
+| emp_desg | varchar(20) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> insert into empl values(1010,'Amaya','Sales',10,'Manager');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into empl values(1020,'Ruke','Sales',10,'Salesman');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into empl values(1030,'Zayn','Accounting',20,'Hr');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into empl values(1040,'Javin','Operations',30,'Developer');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into empl values(1050,'Mevin','Operations',30,'Manager');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from empl;
++--------+----------+------------+---------+-----------+
+| emp_id | emp_name | emp_dpt    | emp_dno | emp_desg  |
++--------+----------+------------+---------+-----------+
+|   1010 | Amaya    | Sales      |      10 | Manager   |
+|   1020 | Ruke     | Sales      |      10 | Salesman  |
+|   1030 | Zayn     | Accounting |      20 | Hr        |
+|   1040 | Javin    | Operations |      30 | Developer |
+|   1050 | Mevin    | Operations |      30 | Manager   |
++--------+----------+------------+---------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> create table deptmt(
+    -> dno int,
+    -> dname varchar(20));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> desc deptmt;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| dno   | int         | YES  |     | NULL    |       |
+| dname | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql> insert into deptmnt values(10,'Sales');
+ERROR 1146 (42S02): Table 'fsd_tasks.deptmnt' doesn't exist
+mysql> insert into deptmt values(10,'Sales');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into deptmt values(20,'Accounting');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into deptmt values(30,'Operations');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into deptmt values(40,'Research');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from deptmt;
++------+------------+
+| dno  | dname      |
++------+------------+
+|   10 | Sales      |
+|   20 | Accounting |
+|   30 | Operations |
+|   40 | Research   |
++------+------------+
+4 rows in set (0.00 sec)
+
+mysql> notee

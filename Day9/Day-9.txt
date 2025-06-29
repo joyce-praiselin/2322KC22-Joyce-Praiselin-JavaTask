@@ -1,0 +1,275 @@
+
+mysql> create table author (
+    ->     authorid int primary key,
+    ->     name varchar(100)
+    -> );
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> 
+mysql> create table publisher (
+    ->     pubid int primary key,
+    ->     name varchar(100)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table book (
+    ->     bookid int primary key,
+    ->     title varchar(200),
+    ->     price decimal(10, 2),
+    ->     authorid int,
+    ->     pubid int,
+    ->     foreign key (authorid) references author(authorid),
+    ->     foreign key (pubid) references publisher(pubid)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> insert into author (authorid, name) values (1, 'Chetan Bhagat');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into author (authorid, name) values (2, 'Arundhati Roy');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into publisher (pubid, name) values (1, 'Rupa Publications');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into publisher (pubid, name) values (2, 'Penguin India');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> insert into book (bookid, title, price, authorid, pubid)
+    -> values (1, 'Five Point Someone', 299.00, 1, 1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> 
+mysql> insert into book (bookid, title, price, authorid, pubid)
+    -> values (2, 'The God of Small Things', 399.00, 2, 2);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> 
+mysql> select * from book;
++--------+-------------------------+--------+----------+-------+
+| bookid | title                   | price  | authorid | pubid |
++--------+-------------------------+--------+----------+-------+
+|      1 | Five Point Someone      | 299.00 |        1 |     1 |
+|      2 | The God of Small Things | 399.00 |        2 |     2 |
++--------+-------------------------+--------+----------+-------+
+2 rows in set (0.02 sec)
+
+mysql> select * from publisher;
++-------+-------------------+
+| pubid | name              |
++-------+-------------------+
+|     1 | Rupa Publications |
+|     2 | Penguin India     |
++-------+-------------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from author;
++----------+---------------+
+| authorid | name          |
++----------+---------------+
+|        1 | Chetan Bhagat |
+|        2 | Arundhati Roy |
++----------+---------------+
+2 rows in set (0.00 sec)
+
+mysql> create table department (
+    ->     deptid int primary key,
+    ->     name varchar(100)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> 
+mysql> create table student (
+    ->     studentid int primary key,
+    ->     name varchar(100),
+    ->     deptid int,
+    ->     foreign key (deptid) references department(deptid)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> 
+mysql> create table course (
+    ->     courseid int primary key,
+    ->     title varchar(100),
+    ->     credits int,
+    ->     deptid int,
+    ->     foreign key (deptid) references department(deptid)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> 
+mysql> create table registration (
+    ->     regid int primary key,
+    ->     studentid int,
+    ->     courseid int,
+    ->     grade char(1),
+    ->     foreign key (studentid) references student(studentid),
+    ->     foreign key (courseid) references course(courseid)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> insert into department (deptid, name) values (1, 'computer science');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into department (deptid, name) values (2, 'mathematics');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> 
+mysql> insert into student (studentid, name, deptid) values (101, 'alex', 1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into student (studentid, name, deptid) values (102, 'anu', 2);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> 
+mysql> insert into course (courseid, title, credits, deptid) values (201, 'DSA', 4, 1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into course (courseid, title, credits, deptid) values (202, 'JAVA', 3, 2);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> 
+mysql> insert into registration (regid, studentid, courseid, grade) values (301, 101, 201, 'a');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into registration (regid, studentid, courseid, grade) values (302, 102, 202, 'b');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from registration;
++-------+-----------+----------+-------+
+| regid | studentid | courseid | grade |
++-------+-----------+----------+-------+
+|   301 |       101 |      201 | a     |
+|   302 |       102 |      202 | b     |
++-------+-----------+----------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from student;
++-----------+------+--------+
+| studentid | name | deptid |
++-----------+------+--------+
+|       101 | alex |      1 |
+|       102 | anu  |      2 |
++-----------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from course;
++----------+-------+---------+--------+
+| courseid | title | credits | deptid |
++----------+-------+---------+--------+
+|      201 | DSA   |       4 |      1 |
+|      202 | JAVA  |       3 |      2 |
++----------+-------+---------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from department;
++--------+------------------+
+| deptid | name             |
++--------+------------------+
+|      1 | computer science |
+|      2 | mathematics      |
++--------+------------------+
+2 rows in set (0.00 sec)
+
+mysql> create table member (
+    ->     memberid int primary key,
+    ->     name varchar(100),
+    ->     email varchar(100)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> 
+mysql> create table staff (
+    ->     staffid int primary key,
+    ->     name varchar(100),
+    ->     role varchar(50)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> 
+mysql> create table loan (
+    ->     loanid int primary key,
+    ->     bookid int,
+    ->     memberid int,
+    ->     staffid int,
+    ->     issuedate date,
+    ->     returndate date,
+    ->     foreign key (bookid) references book(bookid),
+    ->     foreign key (memberid) references member(memberid),
+    ->     foreign key (staffid) references staff(staffid)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> create table books (
+    ->     bookid int primary key,
+    ->     title varchar(200),
+    ->     author varchar(100),
+    ->     publisher varchar(100)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> insert into books (bookid, title, author, publisher) values (1, 'wings of fire', 'abdul kalam', 'universities press');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into books (bookid, title, author, publisher) values (2, 'godaan', 'munshi ', 'global press');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into member (memberid, name, email) values (101, 'ravi', 'ravi.kumar@example.com');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into member (memberid, name, email) values (102, 'meena', 'meena.sharma@example.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into staff (staffid, name, role) values (201, 'anil ', 'librarian');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into staff (staffid, name, role) values (202, 'joshi', 'assistant');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into loan (loanid, bookid, memberid, staffid, issuedate, returndate) 
+    -> values (301, 1, 101, 201, '2025-06-01', '2025-06-15');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into loan (loanid, bookid, memberid, staffid, issuedate, returndate) 
+    -> values (302, 2, 102, 202, '2025-06-05', '2025-06-20');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from books;
++--------+---------------+-------------+--------------------+
+| bookid | title         | author      | publisher          |
++--------+---------------+-------------+--------------------+
+|      1 | wings of fire | abdul kalam | universities press |
+|      2 | godaan        | munshi      | global press       |
++--------+---------------+-------------+--------------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from staff;
++---------+-------+-----------+
+| staffid | name  | role      |
++---------+-------+-----------+
+|     201 | anil  | librarian |
+|     202 | joshi | assistant |
++---------+-------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from member;
++----------+-------+--------------------------+
+| memberid | name  | email                    |
++----------+-------+--------------------------+
+|      101 | ravi  | ravi.kumar@example.com   |
+|      102 | meena | meena.sharma@example.com |
++----------+-------+--------------------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from loan;
++--------+--------+----------+---------+------------+------------+
+| loanid | bookid | memberid | staffid | issuedate  | returndate |
++--------+--------+----------+---------+------------+------------+
+|    301 |      1 |      101 |     201 | 2025-06-01 | 2025-06-15 |
+|    302 |      2 |      102 |     202 | 2025-06-05 | 2025-06-20 |
++--------+--------+----------+---------+------------+------------+
+2 rows in set (0.00 sec)
+
+mysql> notee

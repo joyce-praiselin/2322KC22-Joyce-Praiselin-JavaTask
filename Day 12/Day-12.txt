@@ -1,0 +1,242 @@
+mysql> use FSD_Tasks;
+Database changed
+mysql> select database();
++------------+
+| database() |
++------------+
+| fsd_tasks  |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select * from stud;
++-----+---------+------+------------+-------+
+| rno | sname   | age  | dob        | marks |
++-----+---------+------+------------+-------+
+| 101 | Amir    |   20 | 2005-09-09 |    80 |
+| 121 | Dolly   |   19 | 2005-11-25 |    70 |
+| 128 | Sanofer |   19 | 2005-06-30 |    81 |
+| 178 | Niki    |   19 | 2005-07-10 |    79 |
+| 181 | Sammy   |   19 | 2006-05-22 |    99 |
++-----+---------+------+------------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from students;
++-----+--------+------+------------+
+| rno | sname  | age  | dob        |
++-----+--------+------+------------+
+| 101 | Alex   |   19 | 2004-07-09 |
+| 102 | Clavin |   20 | 2005-12-12 |
+| 106 | Drake  |   19 | 2005-09-30 |
+| 107 | Rick   |   21 | 2004-02-10 |
+| 111 | Jammie |   18 | 2006-10-19 |
++-----+--------+------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from marks;
++-----+--------+------+
+| rno | sname  | mark |
++-----+--------+------+
+| 101 | Alex   |   79 |
+| 102 | Clavin |   89 |
+| 106 | Drake  |   81 |
+| 107 | Rick   |   90 |
+| 111 | Jammie |   70 |
++-----+--------+------+
+5 rows in set (0.00 sec)
+
+mysql> select s.sname ,m.mark from students s join marks m on s.rno=m.rno;
++--------+------+
+| sname  | mark |
++--------+------+
+| Alex   |   79 |
+| Clavin |   89 |
+| Drake  |   81 |
+| Rick   |   90 |
+| Jammie |   70 |
++--------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from students where sname=(select sname from marks order by mark desc limit 1);
++-----+-------+------+------------+
+| rno | sname | age  | dob        |
++-----+-------+------+------------+
+| 107 | Rick  |   21 | 2004-02-10 |
++-----+-------+------+------------+
+1 row in set (0.00 sec)
+
+mysql> create table customers (
+    ->   customer_id int primary key,
+    ->   customer_name varchar(50),
+    ->   city varchar(30)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table orders (
+    ->   order_id int primary key,
+    ->   order_date date,
+    ->   amount decimal(10,2),
+    ->   customer_id int,
+    ->   foreign key (customer_id) references customers(customer_id)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> insert into customers values (1, 'Alex', 'Delhi');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into customers values (2, 'Brian', 'Mumbai');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into customers values (3, 'Cathy', 'Chennai');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into customers values (4, 'David', 'Kolkata');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into orders values (101, '2024-06-10', 2500.00, 1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into orders values (102, '2024-06-11', 1800.50, 2);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into orders values (103, '2024-06-12', 3200.00, 1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into orders values (104, '2024-06-13', 500.75, 3);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from customers;
++-------------+---------------+---------+
+| customer_id | customer_name | city    |
++-------------+---------------+---------+
+|           1 | Alex          | Delhi   |
+|           2 | Brian         | Mumbai  |
+|           3 | Cathy         | Chennai |
+|           4 | David         | Kolkata |
++-------------+---------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select * from orders;
++----------+------------+---------+-------------+
+| order_id | order_date | amount  | customer_id |
++----------+------------+---------+-------------+
+|      101 | 2024-06-10 | 2500.00 |           1 |
+|      102 | 2024-06-11 | 1800.50 |           2 |
+|      103 | 2024-06-12 | 3200.00 |           1 |
+|      104 | 2024-06-13 |  500.75 |           3 |
++----------+------------+---------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select c.customer_id, c.customer_name, o.order_id, o.order_date, o.amount
+    -> from customers c
+    -> join orders o on c.customer_id = o.customer_id;
++-------------+---------------+----------+------------+---------+
+| customer_id | customer_name | order_id | order_date | amount  |
++-------------+---------------+----------+------------+---------+
+|           1 | Alex          |      101 | 2024-06-10 | 2500.00 |
+|           1 | Alex          |      103 | 2024-06-12 | 3200.00 |
+|           2 | Brian         |      102 | 2024-06-11 | 1800.50 |
+|           3 | Cathy         |      104 | 2024-06-13 |  500.75 |
++-------------+---------------+----------+------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select o.order_id, c.customer_name, b.book_name from orders o join customers c on o.customer_id = c.customer_id join booklib b on o.book_id = b.book_id;
++----------+---------------+---------------------+
+| order_id | customer_name | book_name           |
++----------+---------------+---------------------+
+|      101 | Alex          | Programming Java    |
+|      103 | Alex          | C Programming       |
+|      102 | Brian         | Python Crash Course |
+|      104 | Cathy         | Eloquent JavaScript |
++----------+---------------+---------------------+
+4 rows in set (0.00 sec)
+
+mysql> create database clg;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use clg;
+Database changed
+mysql> select database();
++------------+
+| database() |
++------------+
+| clg        |
++------------+
+1 row in set (0.00 sec)
+
+mysql> create table departments (
+    ->   dept_id int primary key,
+    ->   dept_name varchar(50)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into departments values (1, 'Computer Science');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into departments values (2, 'Information Technology');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into departments values (3, 'Commerce');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> create table students (
+    ->   student_id int primary key,
+    ->   student_name varchar(50),
+    ->   marks int,
+    ->   dept_id int,
+    ->   foreign key (dept_id) references departments(dept_id)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select * from departments;
++---------+------------------------+
+| dept_id | dept_name              |
++---------+------------------------+
+|       1 | Computer Science       |
+|       2 | Information Technology |
+|       3 | Commerce               |
++---------+------------------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from students;
+Empty set (0.01 sec)
+
+mysql> insert into students values (101, 'Amir', 85, 1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into students values (102, 'Dolly', 78, 2);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into students values (103, 'Zayn', 91, 1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into students values (104, 'Niki', 66, 3);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into students values (105, 'Sammy', 74, 2);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from students;
++------------+--------------+-------+---------+
+| student_id | student_name | marks | dept_id |
++------------+--------------+-------+---------+
+|        101 | Amir         |    85 |       1 |
+|        102 | Dolly        |    78 |       2 |
+|        103 | Zayn         |    91 |       1 |
+|        104 | Niki         |    66 |       3 |
+|        105 | Sammy        |    74 |       2 |
++------------+--------------+-------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select s.student_id,s.student_name,s.marks,d.dept_name from students s join departments d on s.dept_id=d.dept_id order by  dept_name;
++------------+--------------+-------+------------------------+
+| student_id | student_name | marks | dept_name              |
++------------+--------------+-------+------------------------+
+|        104 | Niki         |    66 | Commerce               |
+|        101 | Amir         |    85 | Computer Science       |
+|        103 | Zayn         |    91 | Computer Science       |
+|        102 | Dolly        |    78 | Information Technology |
+|        105 | Sammy        |    74 | Information Technology |
++------------+--------------+-------+------------------------+
+5 rows in set (0.00 sec)
+
+mysql> notee
